@@ -54,12 +54,7 @@ function History(email) {
   };
 
   const formatValue = (n) => {
-    let number = n.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
-    return number.replaceAll(",", " ");
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const getDate = (timeStamp) => {
@@ -81,7 +76,7 @@ function History(email) {
       <DataTable.Header>
         <DataTable.Title>Delete</DataTable.Title>
         <DataTable.Title>Frequency</DataTable.Title>
-        <DataTable.Title numeric>Income (R)</DataTable.Title>
+        <DataTable.Title numeric>Salary (R)</DataTable.Title>
         <DataTable.Title numeric>Tax</DataTable.Title>
       </DataTable.Header>
       <ScrollView>
@@ -119,8 +114,8 @@ function History(email) {
                   </DataTable.Cell>
                   <DataTable.Cell numeric>
                     {row["Frequency"] === "Monthly"
-                      ? formatValue(row["Tax"] / 12)
-                      : formatValue(row["Tax"])}
+                      ? formatValue(row["MonthlyTax"])
+                      : formatValue(row["YearlyTax"])}
                   </DataTable.Cell>
                 </DataTable.Row>
               );

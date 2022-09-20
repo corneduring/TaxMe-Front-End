@@ -49,7 +49,7 @@ function App() {
 
         setLoginData((current) => ({ ...current, message: response }));
 
-        if (response != "Valid") {
+        if (response != "") {
           alert(response);
         } else {
           handleEmailChange(loginData.email);
@@ -116,8 +116,8 @@ function App() {
   const SignUp = ({ navigation: { goBack } }) => {
     const [signUpData, setSignUpData] = useState({
       email: "",
-      password1: "",
-      password2: "",
+      password: "",
+      passwordValidator: "",
       message: "",
     });
 
@@ -127,14 +127,14 @@ function App() {
           "http://localhost:8080/signup",
           {
             email: signUpData.email,
-            password1: signUpData.password1,
-            password2: signUpData.password2,
+            password: signUpData.password,
+            passwordValidator: signUpData.passwordValidator,
           }
         );
 
         setSignUpData((current) => ({ ...current, message: response }));
 
-        if (response != "Valid") {
+        if (response != "") {
           alert(response);
         } else {
           goBack("Sign Up");
@@ -161,7 +161,7 @@ function App() {
         />
         <Text style={styles.textLabel}>Password</Text>
         <TextInput
-          value={signUpData.password1}
+          value={signUpData.password}
           style={styles.textBox}
           placeholder="********"
           secureTextEntry={true}
@@ -169,13 +169,13 @@ function App() {
           onChangeText={(text) =>
             setSignUpData((signUpData) => ({
               ...signUpData,
-              password1: text,
+              password: text,
             }))
           }
         />
         <Text style={styles.textLabel}>Match Password</Text>
         <TextInput
-          value={signUpData.password2}
+          value={signUpData.passwordValidator}
           style={styles.textBox}
           placeholder="********"
           secureTextEntry={true}
@@ -183,18 +183,14 @@ function App() {
           onChangeText={(text) =>
             setSignUpData((signUpData) => ({
               ...signUpData,
-              password2: text,
+              passwordValidator: text,
             }))
           }
         />
         <TouchableOpacity
           style={[styles.button, { backgroundColor: "dodgerblue" }]}
           onPress={() => {
-            if (signUpData.password1.length < 6) {
-              alert("You password needs to be at least 6 characters long!");
-            } else {
-              signUp();
-            }
+            signUp();
           }}
         >
           <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
