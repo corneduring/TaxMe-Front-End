@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screens
-import CalculatorScreen from "./screens/calculator";
-import HistoryScreen from "./screens/history";
-import SettingsScreen from "./screens/learn";
+import CalculatorScreen from "./calculatorScreen";
+import HistoryScreen from "./historyScreen";
+import SettingsScreen from "./educationScreen";
 
 //Screen names
 const calculatorScreenName = "Calculator";
