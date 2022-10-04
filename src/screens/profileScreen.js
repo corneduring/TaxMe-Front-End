@@ -8,10 +8,10 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { Alert } from "react-native";
-import { LoginContext } from "../../helper/state";
+import { AuthContext } from "../context";
 
 const Profile = (props) => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+  // const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const [profileData, setProfileData] = useState({
     storedCalculations: 0,
     message: "",
@@ -66,6 +66,8 @@ const Profile = (props) => {
       console.log("Error: " + error);
     }
   };
+
+  const { signOut } = React.useContext(AuthContext);
 
   return (
     <View style={[styles.container, { paddingVertical: 20 }]}>
@@ -174,9 +176,7 @@ const Profile = (props) => {
                   [
                     {
                       text: "Yes",
-                      onPress: () => {
-                        setIsLoggedIn(false);
-                      },
+                      onPress: () => signOut(),
                     },
                     {
                       text: "No",

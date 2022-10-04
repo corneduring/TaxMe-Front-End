@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { AuthContext } from "../context";
 
 const SignUpScreen = () => {
   const [signUpData, setSignUpData] = useState({
@@ -15,28 +16,30 @@ const SignUpScreen = () => {
     message: "",
   });
 
-  const signUp = async () => {
-    try {
-      const { data: response } = await axios.post(
-        "http://localhost:8080/signup",
-        {
-          email: signUpData.email,
-          password: signUpData.password,
-          passwordValidator: signUpData.passwordValidator,
-        }
-      );
+  // const signUp = async () => {
+  //   try {
+  //     const { data: response } = await axios.post(
+  //       "http://localhost:8080/signup",
+  //       {
+  //         email: signUpData.email,
+  //         password: signUpData.password,
+  //         passwordValidator: signUpData.passwordValidator,
+  //       }
+  //     );
 
-      setSignUpData((current) => ({ ...current, message: response }));
+  //     setSignUpData((current) => ({ ...current, message: response }));
 
-      if (response != "") {
-        alert(response);
-      } else {
-        goBack("Sign Up");
-      }
-    } catch (error) {
-      console.log("Error: " + error);
-    }
-  };
+  //     if (response != "") {
+  //       alert(response);
+  //     } else {
+  //       goBack("Sign Up");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error: " + error);
+  //   }
+  // };
+
+  const { signUp } = React.useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Tax Me</Text>

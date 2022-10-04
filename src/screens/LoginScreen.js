@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { AuthContext } from "../context";
 
 const LoginScreen = ({ navigation }) => {
+  const { logIn } = React.useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Tax Me</Text>
@@ -42,13 +44,14 @@ const LoginScreen = ({ navigation }) => {
       />
       <TouchableOpacity
         style={[styles.button, { backgroundColor: "dodgerblue" }]}
+        onPress={() => logIn()}
       >
         <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
       </TouchableOpacity>
       <Text style={{ marginTop: 15 }}>
         Don't have an account?{" "}
         <Text
-          onPress={() => navigation.push("SignIn")}
+          onPress={() => navigation.push("SignUp")}
           style={{ color: "dodgerblue", textDecorationLine: "underline" }}
         >
           Sign Up

@@ -11,7 +11,7 @@ import RNPickerSelect from "react-native-picker-select";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 
-const CalculatorScreen = (props, { navigation }) => {
+const CalculatorScreen = ({ navigation }) => {
   const [onProfile, setOnProfile] = useState(false);
   const [data, setData] = useState({
     salary: 0,
@@ -85,7 +85,7 @@ const CalculatorScreen = (props, { navigation }) => {
   };
 
   const escapeRegExp = (string) => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   };
 
   const formatValue = (n) => {
