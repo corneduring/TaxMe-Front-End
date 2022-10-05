@@ -1,12 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
 
 // Custom Stack's imports
 import HomeStack from "./src/routes/homeStack";
 import AuthStack from "./src/routes/authStack";
 
+// Custom authentication to set user tokens upon
+// logging in, signing in or signing up
 import { AuthContext } from "./src/context";
 
 const Root = createStackNavigator();
@@ -56,40 +57,5 @@ function App() {
     </AuthContext.Provider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     padding: 40,
-//   },
-//   heading: {
-//     fontSize: 35,
-//     fontWeight: "bold",
-//     marginBottom: 8,
-//   },
-//   textLabel: {
-//     fontSize: 15,
-//     marginTop: 8,
-//   },
-//   textBox: {
-//     height: 40,
-//     width: "100%",
-//     borderColor: "gray",
-//     borderWidth: 1,
-//     marginTop: 8,
-//     borderRadius: 3,
-//     padding: 10,
-//   },
-//   button: {
-//     width: "100%",
-//     height: 40,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     marginTop: 15,
-//     padding: 5,
-//     borderRadius: 4,
-//   },
-// });
 
 export default App;
