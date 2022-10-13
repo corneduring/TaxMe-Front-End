@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { AuthContext } from "../context";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import GlobalStyles from "../styles/GlobalStyles";
 
 const SignUpScreen = () => {
   const [signUpData, setSignUpData] = useState({
@@ -16,119 +17,115 @@ const SignUpScreen = () => {
     message: "",
   });
 
-  // const signUp = async () => {
-  //   try {
-  //     const { data: response } = await axios.post(
-  //       "http://localhost:8080/signup",
-  //       {
-  //         email: signUpData.email,
-  //         password: signUpData.password,
-  //         passwordValidator: signUpData.passwordValidator,
-  //       }
-  //     );
-
-  //     setSignUpData((current) => ({ ...current, message: response }));
-
-  //     if (response != "") {
-  //       alert(response);
-  //     } else {
-  //       goBack("Sign Up");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error: " + error);
-  //   }
-  // };
-
-  const { signUp } = React.useContext(AuthContext);
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Tax Me</Text>
-      <Text style={styles.textLabel}>Email</Text>
-      <TextInput
-        value={signUpData.email}
-        placeholder="example@example.com"
-        style={styles.textBox}
-        autoCapitalize="none"
-        onChangeText={(text) =>
-          setSignUpData((signUpData) => ({
-            ...signUpData,
-            email: text,
-          }))
-        }
-      />
-      <Text style={styles.textLabel}>Password</Text>
-      <TextInput
-        value={signUpData.password}
-        style={styles.textBox}
-        placeholder="********"
-        secureTextEntry={true}
-        autoCapitalize="none"
-        onChangeText={(text) =>
-          setSignUpData((signUpData) => ({
-            ...signUpData,
-            password: text,
-          }))
-        }
-      />
-      <Text style={styles.textLabel}>Match Password</Text>
-      <TextInput
-        value={signUpData.passwordValidator}
-        style={styles.textBox}
-        placeholder="********"
-        secureTextEntry={true}
-        autoCapitalize="none"
-        onChangeText={(text) =>
-          setSignUpData((signUpData) => ({
-            ...signUpData,
-            passwordValidator: text,
-          }))
-        }
-      />
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "dodgerblue" }]}
-        onPress={() => {
-          signUp();
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
-      </TouchableOpacity>
+    <View style={GlobalStyles.container}>
+      <View style={[GlobalStyles.logo, { height: "29%" }]}></View>
+      <View style={[GlobalStyles.modal, { height: "71%" }]}>
+        {/* Headings */}
+        <Text style={GlobalStyles.heading}>Welcome to TaxMe!</Text>
+        <Text style={GlobalStyles.subHeading}>Create your new account</Text>
+        {/* Username Textbox */}
+        <View style={GlobalStyles.textBoxContainer}>
+          <Ionicons
+            style={GlobalStyles.icon}
+            name="person-outline"
+            size={20}
+            color="#000"
+          />
+          <TextInput
+            value={signUpData.email}
+            style={GlobalStyles.textBox}
+            placeholder="Username"
+            placeholderTextColor="#000"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+            }
+          />
+        </View>
+        {/* Email Textbox */}
+        <View style={GlobalStyles.textBoxContainer}>
+          <Ionicons
+            style={GlobalStyles.icon}
+            name="mail-outline"
+            size={20}
+            color="#000"
+          />
+          <TextInput
+            value={signUpData.email}
+            style={GlobalStyles.textBox}
+            placeholder="Email Address"
+            placeholderTextColor="#000"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+            }
+          />
+        </View>
+        {/* Phone Number Textbox */}
+        <View style={GlobalStyles.textBoxContainer}>
+          <Ionicons
+            style={GlobalStyles.icon}
+            name="phone-portrait-outline"
+            size={20}
+            color="#000"
+          />
+          <TextInput
+            value={signUpData.email}
+            style={GlobalStyles.textBox}
+            placeholder="Phone Number"
+            placeholderTextColor="#000"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+            }
+          />
+        </View>
+        {/* Password Textbox */}
+        <View style={GlobalStyles.textBoxContainer}>
+          <Ionicons
+            style={GlobalStyles.icon}
+            name="lock-open-outline"
+            size={20}
+            color="#000"
+          />
+          <TextInput
+            value={signUpData.email}
+            style={GlobalStyles.textBox}
+            placeholder="Password"
+            placeholderTextColor="#000"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+            }
+          />
+        </View>
+        {/* Password Confirm Textbox */}
+        <View style={GlobalStyles.textBoxContainer}>
+          <Ionicons
+            style={GlobalStyles.icon}
+            name="lock-open-outline"
+            size={20}
+            color="#000"
+          />
+          <TextInput
+            value={signUpData.email}
+            style={GlobalStyles.textBox}
+            placeholder="Confirm Password"
+            placeholderTextColor="#000"
+            autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+            }
+          />
+        </View>
+        {/* Sign Up Button */}
+        <TouchableOpacity style={GlobalStyles.button}>
+          <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 40,
-  },
-  heading: {
-    fontSize: 35,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  textLabel: {
-    fontSize: 15,
-    marginTop: 8,
-  },
-  textBox: {
-    height: 40,
-    width: "100%",
-    borderColor: "gray",
-    borderWidth: 1,
-    marginTop: 8,
-    borderRadius: 3,
-    padding: 10,
-  },
-  button: {
-    width: "100%",
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 15,
-    padding: 5,
-    borderRadius: 4,
-  },
-});
 
 export default SignUpScreen;

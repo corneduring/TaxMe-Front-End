@@ -6,13 +6,9 @@ import SignUp from "../screens/signUpScreen";
 
 const Auth = createStackNavigator();
 const AuthStack = () => (
-  <Auth.Navigator>
-    <Auth.Screen name="LogIn" component={LogIn} options={{ title: "Log In" }} />
-    <Auth.Screen
-      name="SignUp"
-      component={SignUp}
-      options={{ title: "Sign Up" }}
-    />
+  <Auth.Navigator screenOptions={{ headerShown: false }}>
+    <Auth.Screen name="LogIn" component={LogIn} />
+    <Auth.Screen name="SignUp" component={SignUp} />
   </Auth.Navigator>
 );
 

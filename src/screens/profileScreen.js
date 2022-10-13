@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import {
   ScrollView,
@@ -8,10 +8,8 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { Alert } from "react-native";
-import { AuthContext } from "../context";
 
 const Profile = (props) => {
-  // const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const [profileData, setProfileData] = useState({
     storedCalculations: 0,
     message: "",
@@ -66,8 +64,6 @@ const Profile = (props) => {
       console.log("Error: " + error);
     }
   };
-
-  const { signOut } = React.useContext(AuthContext);
 
   return (
     <View style={[styles.container, { paddingVertical: 20 }]}>
