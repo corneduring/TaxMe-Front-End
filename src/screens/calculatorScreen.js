@@ -10,9 +10,10 @@ import {
 import RNPickerSelect from "react-native-picker-select";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
+import CalculatorStyles from "../styles/CalculatorStyles";
+import AuthStackStyles from "../styles/AuthStackStyles";
 
 const CalculatorScreen = ({ navigation }) => {
-  const [onProfile, setOnProfile] = useState(false);
   const [data, setData] = useState({
     salary: 0,
     frequency: "",
@@ -100,164 +101,101 @@ const CalculatorScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.pageContainer}>
-      <Ionicons
-        name="person-circle"
-        size={55}
-        color="#282c34"
-        style={{
-          width: 55,
-          position: "absolute",
-          top: 0,
-          right: 0,
-          margin: 10,
-        }}
-        onPress={() => navigation.push("Profile")}
-      />
-      <View style={styles.taxContainer}>
-        <View style={{ flex: 1 }}>
-          <Text style={{ marginTop: 15, fontWeight: "bold" }}>
-            Yearly Income Tax:
-          </Text>
-          <Text style={{ marginTop: 15, fontWeight: "bold", fontSize: 20 }}>
-            R {formatValue(data.tax)}
-          </Text>
+    <View style={CalculatorStyles.container}>
+      {/* Heading */}
+      <Text style={CalculatorStyles.heading}>Calculator</Text>
+      {/* User's taxes to be paid based on a yearly salary */}
+      <Text style={CalculatorStyles.subHeading}>Yearly Income Tax:</Text>
+      <Text style={CalculatorStyles.taxValue}>
+        R{"  "}
+        {formatValue(data.tax)}
+      </Text>
+      {/* User's taxes to be paid based on a monthly salary */}
+      <Text style={CalculatorStyles.subHeading}>Monthly Income Tax:</Text>
+      <Text style={CalculatorStyles.taxValue}>
+        R{"  "}
+        {formatValue(data.tax / 12)}
+      </Text>
+      {/* Tax Calculator */}
+      <View style={CalculatorStyles.calculatorContainer}>
+        <Text style={CalculatorStyles.textLabel}>
+          How often do you get paid?
+        </Text>
+        <View>
+          <RNPickerSelect
+            value={data.frequency}
+            onValueChange={(value) =>
+              setData((data) => ({
+                ...data,
+                frequency: value,
+              }))
+            }
+            items={[
+              { label: "Monthly", value: "Monthly" },
+              { label: "Yearly", value: "Yearly" },
+            ]}
+            style={picketSelectStyles}
+          />
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ marginTop: 15, fontWeight: "bold" }}>
-            Monthly Income Tax:
-          </Text>
-          <Text style={{ marginTop: 15, fontWeight: "bold", fontSize: 20 }}>
-            R {formatValue(data.tax / 12)}
-          </Text>
-        </View>
-      </View>
-      <Text style={styles.textLabel}>How often do you get paid?</Text>
-      <View>
-        <RNPickerSelect
-          value={data.frequency}
-          onValueChange={(value) =>
+        <Text style={CalculatorStyles.textLabel}>
+          How much do you earn before tax?
+        </Text>
+        <TextInput
+          style={CalculatorStyles.textBox}
+          value={formatValue(String(data.salary))}
+          keyboardType="numeric"
+          onChangeText={(text) => {
             setData((data) => ({
               ...data,
-              frequency: value,
-            }))
-          }
-          items={[
-            { label: "Monthly", value: "Monthly" },
-            { label: "Yearly", value: "Yearly" },
-          ]}
-          style={picketSelectStyles}
+              salary: text,
+            }));
+          }}
         />
-      </View>
-      <Text style={styles.textLabel}>How much do you earn before tax?</Text>
-      <TextInput
-        style={styles.textBox}
-        value={formatValue(String(data.salary))}
-        keyboardType="numeric"
-        onChangeText={(text) => {
-          setData((data) => ({
-            ...data,
-            salary: text,
-          }));
-        }}
-      />
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: "dodgerblue", flex: 1 }]}
-          onPress={() => {
-            if (!Number(data.salary)) {
-              alert(
-                "Your salary is invalid and can't contain alphabetical characters!"
-              );
-            }
-            calculate();
-          }}
-        >
-          <Text style={{ color: "white", fontWeight: "bold" }}>Calculate</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              width: 40,
-              marginLeft: 10,
-              borderWidth: 1,
-              borderColor: "dodgerblue",
-            },
-          ]}
-          onPress={() => {
-            setData({
-              salary: "0",
-              frequency: "",
-              tax: 0,
-              message: "",
-            });
-          }}
-        >
-          <Ionicons name="refresh-outline" color="dodgerblue" size={24} />
-        </TouchableOpacity>
+        {/* Calculator Buttons */}
+        <View style={CalculatorStyles.buttonsContainer}>
+          <TouchableOpacity
+            style={[AuthStackStyles.button, { flex: 1 }]}
+            onPress={() => {
+              {
+                !Number(data.salary)
+                  ? alert("You entered an invalid salary!")
+                  : calculate();
+              }
+            }}
+          >
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+              Calculate
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={CalculatorStyles.button}
+            onPress={() => {
+              setData({
+                salary: "0",
+                frequency: "",
+                tax: 0,
+                message: "",
+              });
+            }}
+          >
+            <Ionicons name="refresh-outline" color="dodgerblue" size={26} />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 40,
-  },
-  userButton: {
-    borderWidth: 1,
-    width: 53,
-    justifyContent: "center",
-  },
-  textLabel: {
-    fontSize: 15,
-    marginTop: 10,
-  },
-  textBox: {
-    height: 40,
-    width: "100%",
-    borderColor: "gray",
-    borderWidth: 1,
-    marginTop: 10,
-    borderRadius: 3,
-    padding: 10,
-  },
-  taxContainer: {
-    flexDirection: "row",
-    marginBottom: 30,
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    height: 40,
-    width: "100%",
-    marginTop: 15,
-  },
-  button: {
-    width: 150,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-    borderRadius: 4,
-  },
-});
-
 const picketSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
     height: 40,
     width: "100%",
-    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: "9px",
+    fontSize: 16,
+    paddingHorizontal: 10,
+    marginBottom: 15,
   },
 });
 

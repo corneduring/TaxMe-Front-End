@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
 
-const GlobalStyles = StyleSheet.create({
+const AuthStackStyles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    width: "100%",
+    height: "100%",
     backgroundColor: "dodgerblue",
   },
   logo: {
@@ -24,14 +25,12 @@ const GlobalStyles = StyleSheet.create({
     fontFamily: "Arial",
     fontWeight: "600",
     marginBottom: 15,
-    marginTop: 0,
   },
   subHeading: {
     fontSize: 15,
     fontFamily: "Arial",
     fontWeight: "400",
     marginBottom: 20,
-    marginTop: 0,
   },
   textLabel: {
     fontSize: 15,
@@ -47,7 +46,7 @@ const GlobalStyles = StyleSheet.create({
     height: 45,
     marginBottom: 13,
   },
-  icon: {
+  textBoxIcon: {
     padding: 10,
     height: 40,
   },
@@ -63,7 +62,12 @@ const GlobalStyles = StyleSheet.create({
     padding: 5,
     backgroundColor: "dodgerblue",
     borderRadius: "9px",
+    marginBottom: 20,
+  },
+  tabBar: {
+    height: 60,
+    backgroundColor: "dodgerblue",
   },
 });
 
-export default GlobalStyles;
+export default AuthStackStyles;

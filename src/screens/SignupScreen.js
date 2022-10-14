@@ -1,61 +1,37 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import GlobalStyles from "../styles/GlobalStyles";
+import AuthStackStyles from "../styles/AuthStackStyles";
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [signUpData, setSignUpData] = useState({
     email: "",
+    phoneNumber: "",
     password: "",
     passwordValidator: "",
     message: "",
   });
 
   return (
-    <View style={GlobalStyles.container}>
-      <View style={[GlobalStyles.logo, { height: "29%" }]}></View>
-      <View style={[GlobalStyles.modal, { height: "71%" }]}>
+    <View style={AuthStackStyles.container}>
+      <View style={[AuthStackStyles.logo, { height: "31%" }]}></View>
+      <View style={[AuthStackStyles.modal, { height: "69%" }]}>
         {/* Headings */}
-        <Text style={GlobalStyles.heading}>Welcome to TaxMe!</Text>
-        <Text style={GlobalStyles.subHeading}>Create your new account</Text>
-        {/* Username Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
-          <Ionicons
-            style={GlobalStyles.icon}
-            name="person-outline"
-            size={20}
-            color="#000"
-          />
-          <TextInput
-            value={signUpData.email}
-            style={GlobalStyles.textBox}
-            placeholder="Username"
-            placeholderTextColor="#000"
-            autoCapitalize="none"
-            onChangeText={(text) =>
-              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
-            }
-          />
-        </View>
+        <Text style={AuthStackStyles.heading}>Welcome to TaxMe!</Text>
+        <Text style={AuthStackStyles.subHeading}>Create your new account</Text>
         {/* Email Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="mail-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
             value={signUpData.email}
-            style={GlobalStyles.textBox}
+            style={AuthStackStyles.textBox}
             placeholder="Email Address"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
             onChangeText={(text) =>
               setSignUpData((signUpData) => ({ ...signUpData, email: text }))
@@ -63,66 +39,81 @@ const SignUpScreen = () => {
           />
         </View>
         {/* Phone Number Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="phone-portrait-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
-            value={signUpData.email}
-            style={GlobalStyles.textBox}
+            value={signUpData.phoneNumber}
+            style={AuthStackStyles.textBox}
             placeholder="Phone Number"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
             onChangeText={(text) =>
-              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+              setSignUpData((signUpData) => ({
+                ...signUpData,
+                phoneNumber: text,
+              }))
             }
           />
         </View>
         {/* Password Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="lock-open-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
-            value={signUpData.email}
-            style={GlobalStyles.textBox}
+            value={signUpData.password}
+            style={AuthStackStyles.textBox}
             placeholder="Password"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
             onChangeText={(text) =>
-              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+              setSignUpData((signUpData) => ({ ...signUpData, password: text }))
             }
           />
         </View>
         {/* Password Confirm Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="lock-open-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
-            value={signUpData.email}
-            style={GlobalStyles.textBox}
+            value={signUpData.passwordValidator}
+            style={AuthStackStyles.textBox}
             placeholder="Confirm Password"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
             onChangeText={(text) =>
-              setSignUpData((signUpData) => ({ ...signUpData, email: text }))
+              setSignUpData((signUpData) => ({
+                ...signUpData,
+                passwordValidator: text,
+              }))
             }
           />
         </View>
         {/* Sign Up Button */}
-        <TouchableOpacity style={GlobalStyles.button}>
+        <TouchableOpacity style={AuthStackStyles.button}>
           <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
         </TouchableOpacity>
+        <Text>
+          Already have an account?{"  "}
+          <Text
+            onPress={() => navigation.goBack()}
+            style={{ color: "dodgerblue", textDecorationLine: "underline" }}
+          >
+            Log In
+          </Text>
+        </Text>
       </View>
     </View>
   );

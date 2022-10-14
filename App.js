@@ -12,7 +12,7 @@ import RootStack from "./src/routes/rootStack";
 function App() {
   return (
     <NavigationContainer>
-      <RootStack />
+      <RootStack userToken="asdf" />
     </NavigationContainer>
   );
 }

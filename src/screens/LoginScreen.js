@@ -1,55 +1,63 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import GlobalStyles from "../styles/GlobalStyles";
+import AuthStackStyles from "../styles/AuthStackStyles";
 
 const LoginScreen = ({ navigation }) => {
+  const [logInData, setLogInData] = useState({
+    email: "",
+    password: "",
+    message: "",
+  });
+
   return (
-    <View style={GlobalStyles.container}>
-      <View style={[GlobalStyles.logo, { height: "48%" }]}></View>
-      <View style={[GlobalStyles.modal, { height: "52%" }]}>
+    <View style={AuthStackStyles.container}>
+      <View style={[AuthStackStyles.logo, { height: "48%" }]}></View>
+      <View style={[AuthStackStyles.modal, { height: "52%" }]}>
         {/* Headings */}
-        <Text style={GlobalStyles.heading}>Welcome Back!</Text>
-        <Text style={GlobalStyles.subHeading}>Log into your account</Text>
+        <Text style={AuthStackStyles.heading}>Welcome Back!</Text>
+        <Text style={AuthStackStyles.subHeading}>Log into your account</Text>
         {/* Email Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="mail-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
-            style={GlobalStyles.textBox}
+            value={logInData.email}
+            style={AuthStackStyles.textBox}
             placeholder="example@example.com"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((logInData) => ({ ...logInData, email: text }))
+            }
           />
         </View>
         {/* Password Textbox */}
-        <View style={GlobalStyles.textBoxContainer}>
+        <View style={AuthStackStyles.textBoxContainer}>
           <Ionicons
-            style={GlobalStyles.icon}
+            style={AuthStackStyles.textBoxIcon}
             name="lock-closed-outline"
             size={20}
-            color="#000"
+            color="black"
           />
           <TextInput
-            style={GlobalStyles.textBox}
+            value={logInData.password}
+            style={AuthStackStyles.textBox}
             placeholder="********"
-            placeholderTextColor="#000"
+            placeholderTextColor="black"
             autoCapitalize="none"
+            onChangeText={(text) =>
+              setSignUpData((logInData) => ({ ...logInData, password: text }))
+            }
             secureTextEntry={true}
           />
         </View>
         {/* Login Button */}
-        <TouchableOpacity style={[GlobalStyles.button, { marginBottom: 20 }]}>
+        <TouchableOpacity style={AuthStackStyles.button}>
           <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
         </TouchableOpacity>
         <Text>
