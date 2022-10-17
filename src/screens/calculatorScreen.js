@@ -13,15 +13,16 @@ import axios from "axios";
 import CalculatorStyles from "../styles/CalculatorStyles";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
-const CalculatorScreen = ({ navigation }) => {
+const CalculatorScreen = () => {
   const [data, setData] = useState({
     salary: 0,
     frequency: "",
     tax: 0,
+    netSalary: 0,
     message: "",
   });
 
-  const brackets = [
+  const taxBrackets = [
     [0, 226000, 0, 0.18],
     [226001, 353100, 40680, 0.26],
     [353101, 488700, 73726, 0.31],
@@ -31,44 +32,49 @@ const CalculatorScreen = ({ navigation }) => {
     [1731601, Number.MAX_SAFE_INTEGER, 614912, 0.45],
   ];
 
-  const calculate = async () => {
-    if (data.frequency != "" && parseInt(data.salary) != 0) {
-      let yearlySalary = data.salary;
+  const calculateTax = async () => {
+    // Only calculate the tax if the user has changed the default values
+    // of the payment frequency and income fields
+    if (parseInt(data.salary) != 0 && data.frequency != "") {
+      // Capture the exact time the calculation was requested
+      let time = new Date().toLocaleString();
+      // If the frequency is to be "Monthly" then multiply the salary entered
+      // by 12 to get the yearly salary based on that same rate
+      let salary = data.frequency == "Monthly" ? data.salary * 12 : data.salary;
       let index = 0;
 
-      if (String(data.frequency) == "Monthly") {
-        yearlySalary = yearlySalary * 12;
-      }
-
-      for (let i = 0; i < brackets.length; i++) {
-        if (yearlySalary > brackets[i][1]) {
-          continue;
+      // Determine in which tax bracket the user's calculation
+      // falls under, based on the salary entered
+      for (let i = taxBrackets.length - 1; i > 0; i--) {
+        if (salary >= taxBrackets[i][0]) {
+          index = i;
+          break;
         }
-        index = i;
-        break;
       }
 
+      // Calculate the tax based on a yearly salary
       let tax =
-        brackets[index][2] +
-        brackets[index][3] * (yearlySalary - (brackets[index][0] - 1));
+        taxBrackets[index][2] +
+        taxBrackets[index][3] * (salary - (taxBrackets[index][0] - 1));
 
+      // Update the state
       setData((data) => ({
         ...data,
-        salary: parseFloat(data.salary).toFixed(2),
+        netSalary:
+          data.frequency == "Monthly" ? (salary - tax) / 12 : salary - tax,
         tax: tax,
       }));
 
-      storeTax(tax, yearlySalary);
+      // Store all information of the current calculation in the database
+      storeCalculation(time, tax, salary);
     }
   };
 
-  const storeTax = async (tax, yearlySalary) => {
-    let time = new Date().toLocaleString();
-
+  const storeCalculation = async (time, tax, salary) => {
     try {
       await axios
         .post("http://localhost:8080/tax", {
-          salary: Number(parseFloat(data.salary).toFixed(2)),
+          salary: Number(parseFloat(salary).toFixed(2)),
           frequency: data.frequency,
           tax: tax,
           email: props.email,
@@ -85,17 +91,16 @@ const CalculatorScreen = ({ navigation }) => {
     }
   };
 
-  const escapeRegExp = (string) => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  };
-
-  const formatValue = (n) => {
+  const formatCurrencyValue = (n) => {
     let number = n.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
-    number = number.replace(new RegExp(escapeRegExp(","), "g"), () => " ");
+    number = number.replace(
+      new RegExp(",".replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
+      () => " "
+    );
 
     return number;
   };
@@ -105,82 +110,83 @@ const CalculatorScreen = ({ navigation }) => {
       {/* Heading */}
       <Text style={CalculatorStyles.heading}>Calculator</Text>
       {/* User's taxes to be paid based on a yearly salary */}
-      <Text style={CalculatorStyles.subHeading}>Yearly Income Tax:</Text>
-      <Text style={CalculatorStyles.taxValue}>
-        R{"  "}
-        {formatValue(data.tax)}
-      </Text>
-      {/* User's taxes to be paid based on a monthly salary */}
-      <Text style={CalculatorStyles.subHeading}>Monthly Income Tax:</Text>
-      <Text style={CalculatorStyles.taxValue}>
-        R{"  "}
-        {formatValue(data.tax / 12)}
-      </Text>
+      <View style={CalculatorStyles.taxContainer}>
+        <Text style={CalculatorStyles.subHeading}>Yearly Income Tax:</Text>
+        <Text style={CalculatorStyles.taxValue}>
+          R{"  "}
+          {formatCurrencyValue(data.tax)}
+        </Text>
+        {/* User's taxes to be paid based on a monthly salary */}
+        <Text style={CalculatorStyles.subHeading}>Monthly Income Tax:</Text>
+        <Text style={CalculatorStyles.taxValue}>
+          R{"  "}
+          {formatCurrencyValue(data.tax / 12)}
+        </Text>
+        {/* User's salary left over after income taxes have been deducted.
+        This net salary is based off of the payment frequency chosen in
+        the drop-down below */}
+        <Text style={CalculatorStyles.subHeading}>Net Salary:</Text>
+        <Text style={CalculatorStyles.taxValue}>
+          R{"  "}
+          {formatCurrencyValue(data.netSalary)}
+        </Text>
+      </View>
       {/* Tax Calculator */}
-      <View style={CalculatorStyles.calculatorContainer}>
-        <Text style={CalculatorStyles.textLabel}>
-          How often do you get paid?
-        </Text>
-        <View>
-          <RNPickerSelect
-            value={data.frequency}
-            onValueChange={(value) =>
-              setData((data) => ({
-                ...data,
-                frequency: value,
-              }))
-            }
-            items={[
-              { label: "Monthly", value: "Monthly" },
-              { label: "Yearly", value: "Yearly" },
-            ]}
-            style={picketSelectStyles}
-          />
-        </View>
-        <Text style={CalculatorStyles.textLabel}>
-          How much do you earn before tax?
-        </Text>
-        <TextInput
-          style={CalculatorStyles.textBox}
-          value={formatValue(String(data.salary))}
-          keyboardType="numeric"
-          onChangeText={(text) => {
+      <Text style={CalculatorStyles.textLabel}>How often do you get paid?</Text>
+      <View>
+        <RNPickerSelect
+          value={data.frequency}
+          onValueChange={(value) =>
             setData((data) => ({
               ...data,
-              salary: text,
-            }));
-          }}
+              frequency: value,
+            }))
+          }
+          items={[
+            { label: "Monthly", value: "Monthly" },
+            { label: "Yearly", value: "Yearly" },
+          ]}
+          style={picketSelectStyles}
         />
-        {/* Calculator Buttons */}
-        <View style={CalculatorStyles.buttonsContainer}>
-          <TouchableOpacity
-            style={[AuthStackStyles.button, { flex: 1 }]}
-            onPress={() => {
-              {
-                !Number(data.salary)
-                  ? alert("You entered an invalid salary!")
-                  : calculate();
-              }
-            }}
-          >
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              Calculate
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={CalculatorStyles.button}
-            onPress={() => {
-              setData({
-                salary: "0",
-                frequency: "",
-                tax: 0,
-                message: "",
-              });
-            }}
-          >
-            <Ionicons name="refresh-outline" color="dodgerblue" size={26} />
-          </TouchableOpacity>
-        </View>
+      </View>
+      <Text style={CalculatorStyles.textLabel}>
+        How much do you earn before tax?
+      </Text>
+      <TextInput
+        style={CalculatorStyles.textBox}
+        value={formatCurrencyValue(String(data.salary))}
+        keyboardType="numeric"
+        onChangeText={(text) => {
+          setData((data) => ({
+            ...data,
+            salary: text,
+          }));
+        }}
+      />
+      {/* Calculator Buttons */}
+      <View style={CalculatorStyles.buttonsContainer}>
+        <TouchableOpacity
+          style={[AuthStackStyles.button, { flex: 1 }]}
+          onPress={() => {
+            calculateTax();
+          }}
+        >
+          <Text style={{ color: "white", fontWeight: "bold" }}>Calculate</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={CalculatorStyles.button}
+          onPress={() => {
+            setData({
+              salary: 0,
+              frequency: "",
+              tax: 0,
+              netSalary: 0,
+              message: "",
+            });
+          }}
+        >
+          <Ionicons name="refresh-outline" color="dodgerblue" size={26} />
+        </TouchableOpacity>
       </View>
     </View>
   );

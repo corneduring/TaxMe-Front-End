@@ -6,28 +6,27 @@ const CalculatorStyles = StyleSheet.create({
     height: "100%",
     backgroundColor: "white",
     paddingHorizontal: 50,
-    paddingVertical: 55,
+    justifyContent: "center",
   },
   heading: {
-    fontSize: 24,
+    fontSize: 22,
     color: "black",
     fontFamily: "Arial",
     fontWeight: "400",
     marginBottom: 31,
     letterSpacing: 1,
   },
+  taxContainer: {
+    justifyContent: "space-between",
+  },
   subHeading: {
     fontSize: 15,
     fontFamily: "Arial",
-    fontWeight: "400",
+    fontWeight: "bold",
     marginBottom: 15,
-  },
-  calculatorContainer: {
-    marginTop: 30,
   },
   taxValue: {
     fontSize: 15,
-    fontWeight: "bold",
     marginBottom: 20,
   },
   textLabel: {

@@ -11,7 +11,7 @@ const Home = createBottomTabNavigator();
 const HomeStack = () => (
   <Home.Navigator
     screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+      tabBarIcon: ({ focused, size }) => {
         let iconName;
         let routeName = route.name;
 
@@ -19,8 +19,8 @@ const HomeStack = () => (
           iconName = focused ? "calculator" : "calculator-outline";
         } else if (routeName === "History") {
           iconName = focused ? "list" : "list-outline";
-        } else if (routeName === "Education Hub") {
-          iconName = focused ? "book" : "book-outline";
+        } else if (routeName === "Settings") {
+          iconName = focused ? "settings" : "settings-outline";
         }
 
         return (
@@ -45,7 +45,11 @@ const HomeStack = () => (
       component={History}
       options={{ headerShown: false }}
     />
-    <Home.Screen name="Education Hub" component={EducationHub} />
+    <Home.Screen
+      name="Education Hub"
+      component={EducationHub}
+      options={{ headerShown: false }}
+    />
   </Home.Navigator>
 );
 
