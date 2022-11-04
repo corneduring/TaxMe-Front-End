@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
-import SettingsStack from "./settingsStack";
+import Calculator from "../screens/calculatorScreen";
 import History from "../screens/historyScreen";
-import EducationHub from "../screens/educationScreen";
+import Settings from "../screens/settingsScreen";
 
 const Home = createBottomTabNavigator();
 const HomeStack = () => (
@@ -36,18 +36,18 @@ const HomeStack = () => (
     })}
   >
     <Home.Screen
+      name="Settings"
+      component={Settings}
+      options={{ headerShown: false }}
+    />
+    <Home.Screen
       name="Home"
-      component={SettingsStack}
+      component={Calculator}
       options={{ headerShown: false }}
     />
     <Home.Screen
       name="History"
       component={History}
-      options={{ headerShown: false }}
-    />
-    <Home.Screen
-      name="Education Hub"
-      component={EducationHub}
       options={{ headerShown: false }}
     />
   </Home.Navigator>

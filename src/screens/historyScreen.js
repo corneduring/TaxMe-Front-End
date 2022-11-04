@@ -3,13 +3,11 @@ import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Alert } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import HistoryStyles from "../styles/HistoryStyles";
 
 function History(email) {
   const [data, setData] = useState([]);
-  const [deleteMessage, setDeleteMessage] = useState();
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -20,7 +18,7 @@ function History(email) {
     try {
       await axios
         .post("http://localhost:8080/history", {
-          email: email,
+          email: "asdf",
         })
         .then((val) => {
           setData(val.data);
@@ -33,43 +31,8 @@ function History(email) {
     }
   };
 
-  const deleteCalculation = async (id, index) => {
-    try {
-      await axios
-        .post("http://localhost:8080/delete", {
-          calculationID: id,
-        })
-        .then((val) => {
-          if (!val.data) {
-            Alert.alert("Error!", "Couldn't delete the selected calculation!");
-          } else {
-            setData(d.filter((row) => row.CalculationID !== id));
-          }
-        })
-        .catch((err) => {
-          console.log("Error: " + err);
-        });
-    } catch (error) {
-      console.log("Error: " + error);
-    }
-  };
-
   const formatValue = (n) => {
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  const getDate = (timeStamp) => {
-    let date = timeStamp.split("T")[0];
-    let time = timeStamp.split("T")[1].split(".")[0];
-
-    let message =
-      "Are you sure you want to delete this calculation made on " +
-      date +
-      " at " +
-      time +
-      "?";
-
-    return message;
   };
 
   return (
@@ -95,7 +58,7 @@ function History(email) {
             style={HistoryStyles.columnHeader}
             numeric
           >
-            Tax
+            Tax (R)
           </DataTable.Title>
           <DataTable.Title
             textStyle={HistoryStyles.columnHeaderText}
@@ -137,23 +100,6 @@ function History(email) {
                         name="trash-outline"
                         color="black"
                         size={20}
-                        onPress={() => {
-                          let message = getDate(row["Time"]);
-                          Alert.alert("Warning!", message, [
-                            {
-                              text: "Yes",
-                              onPress: () => {
-                                deleteCalculation(row["CalculationID"], i);
-                              },
-                            },
-                            {
-                              text: "No",
-                              onPress: () => {
-                                return;
-                              },
-                            },
-                          ]);
-                        }}
                         style={{ justifyContent: "right" }}
                       />
                     </DataTable.Cell>

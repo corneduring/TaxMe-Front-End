@@ -103,7 +103,7 @@ const SignUpScreen = ({ navigation }) => {
         </View>
         {/* Sign Up Button */}
         <TouchableOpacity style={AuthStackStyles.button}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
+          <Text style={SettingsStyles.buttonText}>Sign up</Text>
         </TouchableOpacity>
         <Text>
           Already have an account?{"  "}

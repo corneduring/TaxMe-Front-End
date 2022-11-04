@@ -64,6 +64,10 @@ const AuthStackStyles = StyleSheet.create({
     borderRadius: "9px",
     marginBottom: 20,
   },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
   tabBar: {
     height: 60,
     backgroundColor: "dodgerblue",

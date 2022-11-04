@@ -5,16 +5,16 @@ const CalculatorStyles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "white",
-    paddingHorizontal: 50,
-    justifyContent: "center",
+    padding: 50,
+    justifyContent: "space-between",
   },
   heading: {
     fontSize: 22,
     color: "black",
     fontFamily: "Arial",
-    fontWeight: "400",
+    fontWeight: "bold",
     marginBottom: 31,
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   taxContainer: {
     justifyContent: "space-between",
@@ -48,7 +48,7 @@ const CalculatorStyles = StyleSheet.create({
     width: "100%",
     marginTop: 15,
   },
-  button: {
+  resetButton: {
     width: 50,
     height: 50,
     borderWidth: 1,
@@ -57,6 +57,10 @@ const CalculatorStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
 

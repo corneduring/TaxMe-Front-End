@@ -58,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         {/* Login Button */}
         <TouchableOpacity style={AuthStackStyles.button}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
+          <Text style={SettingsStyles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <Text>
           Don't have an account?{"  "}

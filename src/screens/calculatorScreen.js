@@ -13,10 +13,10 @@ import axios from "axios";
 import CalculatorStyles from "../styles/CalculatorStyles";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
-const CalculatorScreen = () => {
+const CalculatorScreen = (props) => {
   const [data, setData] = useState({
-    salary: 0,
-    frequency: "",
+    salary: 100000,
+    frequency: "Monthly",
     tax: 0,
     netSalary: 0,
     message: "",
@@ -64,30 +64,6 @@ const CalculatorScreen = () => {
           data.frequency == "Monthly" ? (salary - tax) / 12 : salary - tax,
         tax: tax,
       }));
-
-      // Store all information of the current calculation in the database
-      storeCalculation(time, tax, salary);
-    }
-  };
-
-  const storeCalculation = async (time, tax, salary) => {
-    try {
-      await axios
-        .post("http://localhost:8080/tax", {
-          salary: Number(parseFloat(salary).toFixed(2)),
-          frequency: data.frequency,
-          tax: tax,
-          email: props.email,
-          time: time,
-        })
-        .then((val) => {
-          setData((current) => ({ ...current, message: val.data }));
-        })
-        .catch((err) => {
-          console.log("Error: " + err);
-        });
-    } catch (error) {
-      console.log("Error: " + error);
     }
   };
 
@@ -171,10 +147,10 @@ const CalculatorScreen = () => {
             calculateTax();
           }}
         >
-          <Text style={{ color: "white", fontWeight: "bold" }}>Calculate</Text>
+          <Text style={CalculatorStyles.buttonText}>Calculate</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={CalculatorStyles.button}
+          style={CalculatorStyles.resetButton}
           onPress={() => {
             setData({
               salary: 0,
