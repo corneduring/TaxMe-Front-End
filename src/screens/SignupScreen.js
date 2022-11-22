@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
@@ -14,7 +14,12 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <View style={AuthStackStyles.container}>
-      <View style={[AuthStackStyles.logo, { height: "31%" }]}></View>
+      <View style={[AuthStackStyles.logoContainer, { height: "31%" }]}>
+        <Image
+          style={AuthStackStyles.logo}
+          source={require("../../assets/logo.png")}
+        />
+      </View>
       <View style={[AuthStackStyles.modal, { height: "69%" }]}>
         {/* Headings */}
         <Text style={AuthStackStyles.heading}>Welcome to TaxMe!</Text>
@@ -103,7 +108,7 @@ const SignUpScreen = ({ navigation }) => {
         </View>
         {/* Sign Up Button */}
         <TouchableOpacity style={AuthStackStyles.button}>
-          <Text style={SettingsStyles.buttonText}>Sign up</Text>
+          <Text style={AuthStackStyles.buttonText}>Sign up</Text>
         </TouchableOpacity>
         <Text>
           Already have an account?{"  "}

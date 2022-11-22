@@ -13,10 +13,10 @@ import axios from "axios";
 import CalculatorStyles from "../styles/CalculatorStyles";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
-const CalculatorScreen = (props) => {
+const CalculatorScreen = () => {
   const [data, setData] = useState({
-    salary: 100000,
-    frequency: "Monthly",
+    salary: 0,
+    frequency: "",
     tax: 0,
     netSalary: 0,
     message: "",

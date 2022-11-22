@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AuthStackStyles from "../styles/AuthStackStyles";
 
@@ -12,7 +12,12 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={AuthStackStyles.container}>
-      <View style={[AuthStackStyles.logo, { height: "48%" }]}></View>
+      <View style={[AuthStackStyles.logoContainer, { height: "48%" }]}>
+        <Image
+          style={AuthStackStyles.logo}
+          source={require("../../assets/logo.png")}
+        />
+      </View>
       <View style={[AuthStackStyles.modal, { height: "52%" }]}>
         {/* Headings */}
         <Text style={AuthStackStyles.heading}>Welcome Back!</Text>
@@ -58,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
         {/* Login Button */}
         <TouchableOpacity style={AuthStackStyles.button}>
-          <Text style={SettingsStyles.buttonText}>Log In</Text>
+          <Text style={AuthStackStyles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <Text>
           Don't have an account?{"  "}

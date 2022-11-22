@@ -36,11 +36,6 @@ const HomeStack = () => (
     })}
   >
     <Home.Screen
-      name="Settings"
-      component={Settings}
-      options={{ headerShown: false }}
-    />
-    <Home.Screen
       name="Home"
       component={Calculator}
       options={{ headerShown: false }}
@@ -48,6 +43,11 @@ const HomeStack = () => (
     <Home.Screen
       name="History"
       component={History}
+      options={{ headerShown: false }}
+    />
+    <Home.Screen
+      name="Settings"
+      component={Settings}
       options={{ headerShown: false }}
     />
   </Home.Navigator>

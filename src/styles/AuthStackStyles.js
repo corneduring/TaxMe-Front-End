@@ -6,8 +6,14 @@ const AuthStackStyles = StyleSheet.create({
     height: "100%",
     backgroundColor: "dodgerblue",
   },
-  logo: {
+  logoContainer: {
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
+    width: 120,
+    height: 120,
   },
   modal: {
     width: "100%",
